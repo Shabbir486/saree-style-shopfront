@@ -10,9 +10,12 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              SareeShop
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
+              <span className="text-white font-bold text-lg">N</span>
+            </div>
+            <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wide">
+              Naayaab
             </div>
           </div>
 
