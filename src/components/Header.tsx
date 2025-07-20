@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ThemeToggle } from "./ThemeToggle"
 import { Badge } from "@/components/ui/badge"
+import { Link } from "react-router-dom"
 
 export function Header() {
   return (
@@ -10,14 +11,14 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
               <span className="text-white font-bold text-lg">N</span>
             </div>
             <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wide">
               Naayaab
             </div>
-          </div>
+          </Link>
 
           {/* Search Bar - Hidden on mobile */}
           <div className="hidden md:flex flex-1 max-w-md mx-8">
@@ -42,12 +43,14 @@ export function Header() {
               <User className="h-5 w-5" />
             </Button>
             
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingBag className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-primary-foreground">
-                3
-              </Badge>
-            </Button>
+            <Link to="/cart">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingBag className="h-5 w-5" />
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-primary text-primary-foreground">
+                  3
+                </Badge>
+              </Button>
+            </Link>
             
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />

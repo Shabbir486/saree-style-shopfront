@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Heart, ShoppingCart, Eye, Star } from "lucide-react"
+import { Link } from "react-router-dom"
 import saree1 from "@/assets/saree-1.jpg"
 import saree2 from "@/assets/saree-2.jpg"
 import saree3 from "@/assets/saree-3.jpg"
@@ -76,12 +77,13 @@ export function ProductGrid() {
                 animationDelay: `${index * 200}ms`
               }}
             >
-              <div className="relative overflow-hidden">
-                <img 
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
-                />
+              <Link to={`/product/${product.id}`} className="block">
+                <div className="relative overflow-hidden">
+                  <img 
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
                 
                 {/* Overlay actions */}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -89,9 +91,11 @@ export function ProductGrid() {
                     <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-white/90 hover:bg-white">
                       <Heart className="h-4 w-4" />
                     </Button>
-                    <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-white/90 hover:bg-white">
-                      <Eye className="h-4 w-4" />
-                    </Button>
+                    <Link to={`/product/${product.id}`}>
+                      <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-white/90 hover:bg-white">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </Link>
                   </div>
                   
                   <div className="absolute bottom-4 left-4 right-4">
@@ -112,12 +116,15 @@ export function ProductGrid() {
                 >
                   {product.tag}
                 </Badge>
-              </div>
+                </div>
+              </Link>
 
               <CardContent className="p-4">
-                <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
-                  {product.name}
-                </h3>
+                <Link to={`/product/${product.id}`} className="block">
+                  <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                    {product.name}
+                  </h3>
+                </Link>
                 
                 <div className="flex items-center space-x-1 mb-2">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
