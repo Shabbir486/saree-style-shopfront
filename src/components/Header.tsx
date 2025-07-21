@@ -1,9 +1,17 @@
-import { ShoppingBag, Search, Menu, Heart, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ThemeToggle } from "./ThemeToggle"
-import { Badge } from "@/components/ui/badge"
-import { Link } from "react-router-dom"
+import {
+  ShoppingBag,
+  Search,
+  Menu,
+  Heart,
+  User,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ThemeToggle } from "./ThemeToggle";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 export function Header() {
   return (
@@ -34,15 +42,30 @@ export function Header() {
           {/* Right side icons */}
           <div className="flex items-center space-x-2">
             <ThemeToggle />
-            
-            <Button variant="ghost" size="icon" className="hidden md:flex">
+
+            {/* <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-1 sm:flex-none"
+              >
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </Button>
+              <Button
+                variant="premium"
+                size="sm"
+                className="flex-1 sm:flex-none"
+              >
+                <UserPlus className="mr-2 h-4 w-4" />
+                Sign Up
+              </Button>
+            </div> */}
+
+            <Button variant="ghost" size="icon" className=" md:flex">
               <Heart className="h-5 w-5" />
             </Button>
-            
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <User className="h-5 w-5" />
-            </Button>
-            
+
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative">
                 <ShoppingBag className="h-5 w-5" />
@@ -51,7 +74,7 @@ export function Header() {
                 </Badge>
               </Button>
             </Link>
-            
+
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
             </Button>
@@ -59,7 +82,7 @@ export function Header() {
         </div>
 
         {/* Mobile Search */}
-        <div className="md:hidden pb-4">
+        {/* <div className="md:hidden pb-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -67,8 +90,8 @@ export function Header() {
               className="pl-10 bg-muted/50 border-0"
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </header>
-  )
+  );
 }

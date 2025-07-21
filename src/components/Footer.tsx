@@ -12,7 +12,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              SareeShop
+              Naayaab
             </div>
             <p className="text-muted-foreground">
               Your trusted destination for authentic and beautiful sarees. 
@@ -90,7 +90,7 @@ export function Footer() {
             </div>
             <div>
               <div className="font-medium">Call Us</div>
-              <div className="text-muted-foreground">+91 98765 43210</div>
+              <div className="text-muted-foreground">+91 7979938926</div>
             </div>
           </div>
           
@@ -100,7 +100,7 @@ export function Footer() {
             </div>
             <div>
               <div className="font-medium">Email</div>
-              <div className="text-muted-foreground">hello@sareeshop.com</div>
+              <div className="text-muted-foreground">s4shabbirali485@gmail.com</div>
             </div>
           </div>
           
@@ -110,7 +110,7 @@ export function Footer() {
             </div>
             <div>
               <div className="font-medium">Address</div>
-              <div className="text-muted-foreground">Mumbai, India</div>
+              <div className="text-muted-foreground">Bhagalpur, India</div>
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@ export function Footer() {
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-muted-foreground">
-            © 2024 SareeShop. All rights reserved.
+            © 2025 Naayaab. All rights reserved.
           </div>
           <div className="flex space-x-6">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">

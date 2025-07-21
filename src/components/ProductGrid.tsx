@@ -57,13 +57,13 @@ const products = [
 
 export function ProductGrid() {
   return (
-    <section className="py-16 lg:py-24 bg-muted/30">
+    <section className="py-6 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+          <h2 className="text-2xl lg:text-4xl font-bold mb-4">
             Featured Collection
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-md text-muted-foreground max-w-2xl mx-auto">
             Handpicked sarees from our premium collection, loved by thousands of customers
           </p>
         </div>
@@ -87,12 +87,12 @@ export function ProductGrid() {
                 
                 {/* Overlay actions */}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute top-4 right-4 space-y-2">
-                    <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-white/90 hover:bg-white">
+                  <div className="absolute top-2 right-4 space-x-2">
+                    <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-purple-400 hover:bg-white">
                       <Heart className="h-4 w-4" />
                     </Button>
                     <Link to={`/product/${product.id}`}>
-                      <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-white/90 hover:bg-white">
+                      <Button size="icon" variant="secondary" className="h-8 w-8 rounded-full bg-purple-400 hover:bg-white">
                         <Eye className="h-4 w-4" />
                       </Button>
                     </Link>
@@ -112,7 +112,7 @@ export function ProductGrid() {
                 </Badge>
                 <Badge 
                   variant="secondary" 
-                  className="absolute top-4 left-20 bg-white text-foreground"
+                  className="absolute ml-3 top-4 left-20 bg-purple-800 text-foreground"
                 >
                   {product.tag}
                 </Badge>
