@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Heart } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Heart, Bookmark } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 // Mock cart data
@@ -18,7 +19,8 @@ const initialCartItems = [
     image: "/src/assets/saree-1.jpg",
     quantity: 1,
     size: "Free Size",
-    color: "Purple"
+    color: "Purple",
+    selected: true
   },
   {
     id: 2,
@@ -28,7 +30,8 @@ const initialCartItems = [
     image: "/src/assets/saree-2.jpg",
     quantity: 2,
     size: "Free Size",
-    color: "Red"
+    color: "Red",
+    selected: true
   }
 ]
 
@@ -45,6 +48,14 @@ const Cart = () => {
     )
   }
 
+  const toggleItemSelection = (id: number) => {
+    setCartItems(items =>
+      items.map(item =>
+        item.id === id ? { ...item, selected: !item.selected } : item
+      )
+    )
+  }
+
   const removeItem = (id: number) => {
     setCartItems(items => items.filter(item => item.id !== id))
     toast({
@@ -53,7 +64,25 @@ const Cart = () => {
     })
   }
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const saveForLater = (id: number) => {
+    const item = cartItems.find(item => item.id === id)
+    removeItem(id)
+    toast({
+      title: "Saved for later",
+      description: `${item?.name} has been saved for later`,
+    })
+  }
+
+  const addToWishlist = (id: number) => {
+    const item = cartItems.find(item => item.id === id)
+    toast({
+      title: "Added to wishlist",
+      description: `${item?.name} has been added to your wishlist`,
+    })
+  }
+
+  const selectedItems = cartItems.filter(item => item.selected)
+  const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
   const shipping = subtotal > 50000 ? 0 : 499
   const total = subtotal + shipping
 
@@ -62,10 +91,15 @@ const Cart = () => {
       <Header />
       
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
+          <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Shopping Cart</h1>
           <p className="text-muted-foreground">
             {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in your cart
+            {selectedItems.length < cartItems.length && (
+              <span className="ml-2 text-primary">
+                ({selectedItems.length} selected)
+              </span>
+            )}
           </p>
         </div>
 
@@ -76,12 +110,19 @@ const Cart = () => {
               <Card key={item.id} className="overflow-hidden">
                 <CardContent className="p-6">
                   <div className="flex gap-4">
-                    <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover"
+                    <div className="flex items-start space-x-3">
+                      <Checkbox
+                        checked={item.selected}
+                        onCheckedChange={() => toggleItemSelection(item.id)}
+                        className="mt-2"
                       />
+                      <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     </div>
                     
                     <div className="flex-1 space-y-2">
@@ -135,6 +176,25 @@ const Cart = () => {
                           </Button>
                         </div>
                       </div>
+                      
+                      <div className="flex gap-2 pt-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => saveForLater(item.id)}
+                        >
+                          <Bookmark className="h-3 w-3 mr-1" />
+                          Save for Later
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => addToWishlist(item.id)}
+                        >
+                          <Heart className="h-3 w-3 mr-1" />
+                          Add to Wishlist
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -159,7 +219,7 @@ const Cart = () => {
           </div>
 
           {/* Order Summary */}
-          {cartItems.length > 0 && (
+          {selectedItems.length > 0 && (
             <div className="lg:col-span-1">
               <Card className="sticky top-24">
                 <CardHeader>

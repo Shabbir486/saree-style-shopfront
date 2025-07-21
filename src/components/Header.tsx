@@ -12,8 +12,12 @@ import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "./ThemeToggle";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { LoginDialog } from "./auth/LoginDialog";
+import { useState } from "react";
 
 export function Header() {
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
@@ -75,6 +79,15 @@ export function Header() {
               </Button>
             </Link>
 
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setLoginDialogOpen(true)}
+              className="hidden md:flex"
+            >
+              <User className="h-5 w-5" />
+            </Button>
+
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
             </Button>
@@ -92,6 +105,11 @@ export function Header() {
           </div>
         </div> */}
       </div>
+      
+      <LoginDialog 
+        open={loginDialogOpen} 
+        onOpenChange={setLoginDialogOpen} 
+      />
     </header>
   );
 }
