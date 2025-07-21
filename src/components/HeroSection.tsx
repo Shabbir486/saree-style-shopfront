@@ -7,11 +7,77 @@ import {
   UserPlus,
   Crown,
   Sparkles,
+  Heart,
+  Gem,
 } from "lucide-react";
 import heroSaree from "@/assets/hero-saree.jpg";
+import saree1 from "@/assets/saree-1.jpg";
+import saree2 from "@/assets/saree-2.jpg";
+import saree3 from "@/assets/saree-3.jpg";
+import saree4 from "@/assets/saree-4.jpg";
 import { useEffect, useState } from "react";
 
+const heroImages = [
+  {
+    src: heroSaree,
+    alt: "Beautiful woman in purple saree",
+    material: "Premium Silk",
+    collection: "Designer Collection",
+    materialIcon: Crown,
+    collectionIcon: Sparkles,
+  },
+  {
+    src: saree1,
+    alt: "Elegant cotton saree",
+    material: "Pure Cotton",
+    collection: "Traditional Collection",
+    materialIcon: Heart,
+    collectionIcon: Star,
+  },
+  {
+    src: saree2,
+    alt: "Luxury silk saree",
+    material: "Banarasi Silk",
+    collection: "Royal Collection",
+    materialIcon: Gem,
+    collectionIcon: Crown,
+  },
+  {
+    src: saree3,
+    alt: "Contemporary saree design",
+    material: "Georgette",
+    collection: "Modern Collection",
+    materialIcon: Sparkles,
+    collectionIcon: Heart,
+  },
+  {
+    src: saree4,
+    alt: "Traditional handwoven saree",
+    material: "Handloom",
+    collection: "Heritage Collection",
+    materialIcon: Star,
+    collectionIcon: Gem,
+  },
+];
+
 export function HeroSection() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+        setIsTransitioning(false);
+      }, 300);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentImage = heroImages[currentImageIndex];
+
   return (
     <section className="relative bg-gradient-hero overflow-hidden min-h-[calc(100vh-7rem)]">
       {/* Cloud Background Effects */}
@@ -63,37 +129,73 @@ export function HeroSection() {
           <div className="relative order-1 md:order-2">
             <div className="relative z-10 max-w-lg mx-auto">
               <div
-                className="p-[0.2rem] rounded-full overflow-hidden shadow-lg w-[19rem] h-[19rem] md:w-[22rem] md:h-[22rem] mx-auto"
+                className="p-[0.2rem] rounded-full overflow-hidden shadow-lg w-[19rem] h-[19rem] md:w-[22rem] md:h-[22rem] mx-auto relative"
                 style={{
                   border: `5px dotted ${localStorage.getItem('theme') === 'light' ? 'black' : 'rgba(255,255,255,0.5)'}`,
                 }}
               >
-                <img
-                  src={heroSaree}
-                  alt="Beautiful woman in purple saree"
-                  className="w-full h-full object-cover rounded-full"
-                />
+                <div className="relative w-full h-full rounded-full overflow-hidden">
+                  <img
+                    src={currentImage.src}
+                    alt={currentImage.alt}
+                    className={`w-full h-full object-cover rounded-full transition-all duration-500 ${
+                      isTransitioning 
+                        ? 'opacity-0 scale-110 blur-sm' 
+                        : 'opacity-100 scale-100 blur-0'
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-full"></div>
+                </div>
               </div>
 
               {/* Floating Product Cards */}
-              <div className="absolute top-8 -left-1 bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-xl p-3 shadow-lg animate-fade-in">
+              <div 
+                className={`absolute top-8 -left-1 bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-xl p-3 shadow-lg transition-all duration-500 ${
+                  isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
+                }`}
+              >
                 <div className="flex items-center space-x-2">
-                  <Crown className="h-4 w-4 text-primary" />
+                  <currentImage.materialIcon className="h-4 w-4 text-primary" />
                   <div>
-                    <div className="text-sm font-semibold">Premium Silk</div>
+                    <div className="text-sm font-semibold">{currentImage.material}</div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute bottom-8 -right-3 bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-xl p-3 shadow-lg animate-fade-in delay-300">
+              <div 
+                className={`absolute bottom-8 -right-3 bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-xl p-3 shadow-lg transition-all duration-500 ${
+                  isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
+                }`}
+              >
                 <div className="flex items-center space-x-2">
-                  <Sparkles className="h-4 w-4 text-accent" />
+                  <currentImage.collectionIcon className="h-4 w-4 text-accent" />
                   <div>
                     <div className="text-sm font-semibold">
-                      Designer Collection
+                      {currentImage.collection}
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Image Indicators */}
+              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setIsTransitioning(true);
+                      setTimeout(() => {
+                        setCurrentImageIndex(index);
+                        setIsTransitioning(false);
+                      }, 300);
+                    }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentImageIndex
+                        ? 'bg-primary w-4'
+                        : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
