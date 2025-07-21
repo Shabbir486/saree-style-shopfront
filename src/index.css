@@ -123,3 +123,10 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --hero-ring-color: rgba(104, 41, 129, 0.5);
+}
+.dark {
+  --hero-ring-color: rgba(255,255,255,0.5);
+}
