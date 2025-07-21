@@ -15,7 +15,7 @@ import saree1 from "@/assets/saree-1.jpg";
 import saree2 from "@/assets/saree-2.jpg";
 import saree3 from "@/assets/saree-3.jpg";
 import saree4 from "@/assets/saree-4.jpg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const heroImages = [
   {
@@ -63,18 +63,38 @@ const heroImages = [
 export function HeroSection() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [cardYOffset, setCardYOffset] = useState(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Helper to get a random Y offset between -12px and +12px
+  const getRandomYOffset = () => Math.floor(Math.random() * 25) - 12;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIsTransitioning(true);
-      setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+        setCardYOffset(getRandomYOffset());
         setIsTransitioning(false);
-      }, 300);
-    }, 4000);
+      }, 350); // slightly longer for smoother fade
+    }, 3200);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, []);
+
+  const handleIndicatorClick = (index: number) => {
+    if (index === currentImageIndex) return;
+    setIsTransitioning(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setTimeout(() => {
+      setCurrentImageIndex(index);
+      setCardYOffset(getRandomYOffset());
+      setIsTransitioning(false);
+    }, 350);
+  };
 
   const currentImage = heroImages[currentImageIndex];
 
@@ -129,43 +149,60 @@ export function HeroSection() {
           <div className="relative order-1 md:order-2">
             <div className="relative z-10 max-w-lg mx-auto">
               <div
-                className="p-[0.2rem] rounded-full overflow-hidden shadow-lg w-[19rem] h-[19rem] md:w-[22rem] md:h-[22rem] mx-auto relative"
-                style={{
-                  border: `5px dotted ${localStorage.getItem('theme') === 'light' ? 'black' : 'rgba(255,255,255,0.5)'}`,
-                }}
+                className="rounded-full overflow-hidden shadow-lg w-[19rem] h-[19rem] md:w-[22rem] md:h-[22rem] mx-auto relative"
               >
-                <div className="relative w-full h-full rounded-full overflow-hidden">
+                <div className="p-1 relative w-full h-full rounded-full overflow-hidden bg-transparent"
+                style={{
+                  border: `5px dotted var(--hero-ring-color)`,
+                }}>
                   <img
                     src={currentImage.src}
                     alt={currentImage.alt}
                     className={`w-full h-full object-cover rounded-full transition-all duration-500 ${
-                      isTransitioning 
-                        ? 'opacity-0 scale-110 blur-sm' 
-                        : 'opacity-100 scale-100 blur-0'
+                      isTransitioning
+                        ? "opacity-0 scale-110 blur-sm"
+                        : "opacity-100 scale-100 blur-0"
                     }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-full"></div>
                 </div>
               </div>
 
-              {/* Floating Product Cards */}
-              <div 
+              {/* Floating Product Card (Material) */}
+              <div
                 className={`absolute top-8 -left-1 bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-xl p-3 shadow-lg transition-all duration-500 ${
-                  isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
+                  isTransitioning
+                    ? "opacity-0 translate-x-4"
+                    : "opacity-100 translate-x-0"
                 }`}
+                style={{
+                  transform: `translateY(${cardYOffset}px)`,
+                  transition:
+                    "transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s",
+                }}
               >
                 <div className="flex items-center space-x-2">
                   <currentImage.materialIcon className="h-4 w-4 text-primary" />
                   <div>
-                    <div className="text-sm font-semibold">{currentImage.material}</div>
+                    <div className="text-sm font-semibold">
+                      {currentImage.material}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div 
+              {/* Floating Product Card (Collection) */}
+              <div
                 className={`absolute bottom-8 -right-3 bg-white/90 dark:bg-card/90 backdrop-blur-sm rounded-xl p-3 shadow-lg transition-all duration-500 ${
-                  isTransitioning ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0'
+                  isTransitioning
+                    ? "opacity-0 translate-x-4"
+                    : "opacity-100 translate-x-0"
                 }`}
+                style={{
+                  transform: `translateY(${-cardYOffset}px)`,
+                  transition:
+                    "transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s",
+                }}
               >
                 <div className="flex items-center space-x-2">
                   <currentImage.collectionIcon className="h-4 w-4 text-accent" />
@@ -182,17 +219,11 @@ export function HeroSection() {
                 {heroImages.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => {
-                      setIsTransitioning(true);
-                      setTimeout(() => {
-                        setCurrentImageIndex(index);
-                        setIsTransitioning(false);
-                      }, 300);
-                    }}
+                    onClick={() => handleIndicatorClick(index)}
                     className={`w-2 h-2 rounded-full transition-all duration-300 ${
                       index === currentImageIndex
-                        ? 'bg-primary w-4'
-                        : 'bg-muted-foreground/40 hover:bg-muted-foreground/60'
+                        ? "bg-primary w-4"
+                        : "bg-muted-foreground/40 hover:bg-muted-foreground/60"
                     }`}
                   />
                 ))}

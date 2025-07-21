@@ -23,11 +23,11 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-primary flex items-center justify-center">
-              <span className="text-white font-bold text-lg">N</span>
+          <Link to="/" className="flex flex-col items-center justify-center">
+            <div className="w-4 h-4 rounded-full bg-gradient-primary flex items-center justify-center">
+              <span className="text-white font-bold text-xs">N</span>
             </div>
-            <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wide">
+            <div className="text-xs font-bold bg-gradient-primary bg-clip-text text-transparent tracking-wide">
               Naayaab
             </div>
           </Link>
@@ -83,7 +83,7 @@ export function Header() {
               variant="ghost" 
               size="icon" 
               onClick={() => setLoginDialogOpen(true)}
-              className="hidden md:flex"
+              className="md:flex"
             >
               <User className="h-5 w-5" />
             </Button>
